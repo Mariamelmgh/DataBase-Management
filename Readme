@@ -1,0 +1,11 @@
+Hello Girlz 
+In order to run this project succefuly you must follow some instructions :
+
+1- You should create a local database in phpMySql name it : PFM (it's mandatory)
+2- To continue the development you must create a test table name it Test and add only two Columns (id & name) id is the primary key and you must activate the auto increment option & name is varchar(255); 
+
+3- It's optional, you can add you data to your table to test for example afficher method 
+
+
+
+Thank you for you're commitment and hard work have a greate development
