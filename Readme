@@ -9,3 +9,5 @@ In order to run this project succefuly you must follow some instructions :
 
 
 Thank you for you're commitment and hard work have a greate development
+====================================================================================================================================
+When Creating a table in ManageDataBase.php we have to grant PHP the permission to write in our hard drive so we can create a subClass that inherit from ManageTable class and so our new class will have all the tables functionalities
