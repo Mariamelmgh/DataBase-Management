@@ -1,4 +1,5 @@
 <?php
+include("Connection.php");
      class Column{
         //Properties
         private $nomColumn;
@@ -109,19 +110,108 @@
         public function setOptionDeTransformationDeSaisie($optionsDeTransformationDeSaisie){
             $this -> optionsDeTransformationDeSaisie = $optionsDeTransformationDeSaisie;
         }
+        public function __construct($nomColumn, $type){
+            $this->nomColumn = $nomColumn;
+            $this->type = $type;
+        }
 
+        /**
+         * This method add a new column to an existent table
+         * @param 
+         * column name
+         * new type
+         * Null Or Not Null
+         * @return void
+         */
+        static public function Ajouter($newColumns,$tableName){
+            // ALTER TABLE table_name
+            // ADD new_column_name column_definition
+            // [ FIRST | AFTER column_name ],
+            // ADD new_column_name column_definition
+            // [ FIRST | AFTER column_name ],
+            //  ...
+            // ;
+            
+            $query = "alter table $tableName  ";
+            for ($i=0; $i < count($newColumns); $i++) {
+             $query .= "add ";
+                for ($j = 0; $j < count($newColumns[$i]); $j++) {
+                $query .= $newColumns[$i][$j] . " ";
+                }
+                if($i != count($newColumns) -1){
+                    $query .= ",";
+                }
+               
+            }
+        Connection::executeQuery($query);    
+        echo $query;
+        }
+          /**
+         * This method is to modify an existent/s column/s in th table
+         * @param 
+         * column name
+         * new type
+         * Null Or Not Null
+         * @return void
+         */
+        public static function Modifier($Columns, $tableName)
+        {
+            // ALTER TABLE table_name
+            // MODIFY column_name column_definition
+            // [ FIRST | AFTER column_name ],
+            // MODIFY column_name column_definition
+            // [ FIRST | AFTER column_name ],
+            //  ...;
 
+            $query = "alter table $tableName ";
+            $query = "alter table $tableName  ";
+            for ($i = 0; $i < count($Columns); $i++) {
+                $query .= "modify ";
+                for ($j = 0; $j < count($Columns[$i]); $j++) {
+                    $query .= $Columns[$i][$j] . " ";
+                }
+                if ($i != count($Columns) - 1) {
+                    $query .= ",";
+                }
+            }
+            echo $query;
+            Connection::executeQuery($query);
+        }
+        /** 
+         * This method is to drop an existent/s column/s in th table
+         * @param 
+         * column name
+         * @return void
+         */
+        public static function Suprimer($columnName, $tableName){
+            //ALTER TABLE table_name
+            //DROP COLUMN column_name;
+            $query = "alter table $tableName Drop Column $columnName";
+             echo $query;
+            Connection::executeQuery($query);
 
+        }
+         /** 
+         * This method is to change an existent coulmn
+         * @param 
+         * columnOldName, columnNewName, tableName, newDefinition
+         *
+         * @return void
+         */
+        public static function Changer($oldName,$newName,$tableName, $newDefinition){
+            //ALTER TABLE contacts
+            //CHANGE COLUMN contact_type ctype
+            // varchar(20) NOT NULL;
+            $query = "alter table $tableName change column $oldName $newName $newDefinition";
+            Connection::executeQuery($query);
 
+        }
+       
 
+}
 
-
-
-
-
-        //Methods
-
-
-    }
+//$column = new Column();
+$array = array(array("Nom_", "varchar(30)", "Null"), array("prenom","varchar(100)","Not Null"),array("age","int","not Null"));
+Column::Suprimer("Nom_","Test");
 
 ?>
