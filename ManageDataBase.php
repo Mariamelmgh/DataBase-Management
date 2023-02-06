@@ -5,7 +5,7 @@
 * 
 */
 include("Column.php");
-include("Connection.php");
+//include("Connection.php");
 class ManageDataBase{
 
  public function executeQuery($query){
@@ -23,6 +23,19 @@ class ManageDataBase{
 public function Afficher(){
 
 }
+public function constructGetters($attribute){
+
+  $getter = "public function get$attribute(){
+      return $"."this -> $attribute;
+  }";
+  return $getter;
+}
+public function constructSetters($attribute){
+  $setter = "public function set$attribute($"."$attribute){
+      $"."this -> $attribute = $"."$attribute; 
+  }";
+  return $setter;
+}
 public function Ajouter($tableName, $columns){
     //SQL Query to create db
     //CREATE TABLE Persons (
@@ -33,35 +46,38 @@ public function Ajouter($tableName, $columns){
     //    City varchar(255) 
     //);
     $col = "(";
+  
+    $content = "<?php class $tableName extends ManageTables{ \n ";
     for ($i=0; $i < count($columns); $i++) {
+      if($columns[$i] -> isPrimaryKey == true){
+        $constraint = "PRIMARY KEY";
+      }else{
+        $constraint = "";
+      }
+    
+       
         if($i != count($columns) -1) {
-           
-            $col .= " ".$columns[$i]->getNomColumn() . " " . $columns[$i]->getType() . ",";
-           ;
+            $col .= " ".$columns[$i]->getNomColumn() . " " . $columns[$i]->getType()." " .$columns[$i]->isNull() ." " . $columns[$i]-> isAutoIncrement(). " " . $constraint . ",";
         } else {
-                $col .= " " .$columns[$i]->getNomColumn() . " " . $columns[$i]->getType() . ")";
-                
+         $col .= " ".$columns[$i]->getNomColumn() . " " . $columns[$i]->getType()." " .$columns[$i]->isNull() ." " . $columns[$i]-> isAutoIncrement()." ".$constraint .")";
+         
         }
-          
+        $content .= "private ". $columns[$i]->getNomColumn() .";\n";
+        $content .= $this-> constructGetters($columns[$i]->getNomColumn()) ."\n";
+        $content .= $this-> constructSetters($columns[$i]->getNomColumn()) ."\n";
     }
-    $query = "Create Table $tableName  $col";
-  //  echo $query;
-   // $this->executeQuery($query);
-    //Create class that inherit from ManageTables 
+    
+
+     $query = "Create Table $tableName  $col";
+     echo $query;
+     $this->executeQuery($query);
+     //Create class that inherit from ManageTables 
      //Creating a file with the patrams name 
-     echo "Tables/$tableName.php";
-    $table =   fopen("Tables/$tableName.php","w") or die("Unable to create file");
-    echo "<br>hi";
-     echo "Tables/$tableName.php";
-    $content = "<?php class $tableName extends ManageTables{}";
-    fwrite($table,$content);
-
-   
+     $content .= "}?>";
+     $table =   fopen("Tables/$tableName.php","w") or die("Unable to create file");
+     //Adding attribute to the new class
+     fwrite($table,$content);  
     fclose($table);
-
-
-
-
 }
 /**
  * /this function is meant to modify an existant table
@@ -106,13 +122,13 @@ public function Renomer($oldName,$newName){
 
 $manageDb = new ManageDataBase();
 
-$c1 = new Column("id","INT");
-
-$c2 = new Column("Name", "VARCHAR(255)");
-$c3 = new Column("lastName", "VARCHAR(255)");
+$c1 = new Column("id","INT",true,false);
+$c1 -> isPrimaryKey = true;
+$c2 = new Column("Name", "VARCHAR(255)",false,false);
+$c3 = new Column("lastName", "VARCHAR(255)",false,true);
 $columns = array($c1,$c2,$c3);
 
-$manageDb->Ajouter("TableForTest",$columns);
+$manageDb->Ajouter("NewTest",$columns);
 
 
 

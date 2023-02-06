@@ -10,6 +10,9 @@ include("Connection.php");
         private $attributs;
         private $isNull;
         private $A_I;
+        private $isPrimaryKey;
+        private $isForeignKey;
+        private $refrence;
         private $commentaire;
         private $virtualite;
         private $deplacerUneColumn;
@@ -67,6 +70,7 @@ include("Connection.php");
         }
         public function setA_I($A_I){
             $this -> A_I = $A_I;
+            
         }
         public function getCommentaire(){
             return $this -> commentaire;
@@ -110,9 +114,29 @@ include("Connection.php");
         public function setOptionDeTransformationDeSaisie($optionsDeTransformationDeSaisie){
             $this -> optionsDeTransformationDeSaisie = $optionsDeTransformationDeSaisie;
         }
-        public function __construct($nomColumn, $type){
+        public function getIsPrimaryKey(){
+            return $this -> isPrimaryKey;
+        }
+        public function setIsPrimaryKey($isPrimaryKey){
+            $this -> isPrimaryKey = $isPrimaryKey;
+        }
+        public function getIsForeignKey(){
+            return $this -> getIsForeignKey;
+        }
+        public function setIsForeignKey($isForeignKey){
+            $this -> isForeignKey = $isForeignKey;
+        }
+        public function getRefrence(){
+            return $this -> refrence;
+        }
+        public function setRefrence($refrence){
+            $this -> refrence = $refrence;
+        }
+        public function __construct($nomColumn, $type, $A_I,$isNull){
             $this->nomColumn = $nomColumn;
             $this->type = $type;
+            $this->A_I = $A_I;
+            $this->isNull = $isNull;
         }
 
         /**
@@ -207,11 +231,23 @@ include("Connection.php");
 
         }
        
+        public function isNull(){
+            if ($this-> getIsNull()){
+                return "";
+            }
+            return "NOT NULL";
+        }
+        public function isAutoIncrement(){
+            if($this-> getA_I()){
+                return "AUTO_INCREMENT";
+            }
+            return "";
+        }
 
 }
 
 //$column = new Column();
-$array = array(array("Nom_", "varchar(30)", "Null"), array("prenom","varchar(100)","Not Null"),array("age","int","not Null"));
-Column::Suprimer("Nom_","Test");
+$array = array(array("id", "int", "Null","AUTO_INCREMENT" ,"PRIMARY KEY"), array("Name","varchar(100)","Not Null"),array("LastName","varchar(255)","not Null"));
+//Column::Modifier($array,"tableForTest");
 
 ?>
