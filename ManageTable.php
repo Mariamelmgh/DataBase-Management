@@ -1,6 +1,6 @@
 <?php
 include "Column.php";
-include("Connection.php");
+//include("Connection.php");
 class ManageTable{
 //Properties
 private $tableName;
@@ -64,12 +64,7 @@ public function __construct($tableName, $nbColumn,$columns,$commentaireDeTable, 
     $this -> setMoteurDeStockage($moteurDeStockage);
 }
 //Methods
-//Get Connection  to realtime database
-public function executeQuery($query){
-    $connection = mysqli_connect("localhost","root","","PFM");
-    $executeQuery = mysqli_query($connection, $query);
-    return $executeQuery;    
-}
+
 //Afficher
         public function afficher($selectedData,$keyword,$condition,$creteria){
             $query= "select ";
@@ -112,7 +107,7 @@ public function executeQuery($query){
         
             $query = "insert INTO  " .$this -> getTableName() . " (Name) VALUES (" . implode(',',$data). ")"; 
             echo $query;
-            $this -> executeQuery($query);
+            Connection:: executeQuery($query);
         }
         //Modifier
         public function modifier($fields,$clause){
@@ -132,7 +127,7 @@ public function executeQuery($query){
                         $query = "update " . $this->getTableName() . " SET $fieldOnString WHERE $clause";
                     }
                     echo $query . "<br>";
-                    $this->executeQuery($query);
+                    Connection::executeQuery($query);
                 
                 }
         }
@@ -144,7 +139,7 @@ public function executeQuery($query){
             }else{
                 $query = "Delete FROM ". $this -> getTableName() . " WHERE $clause"; 
             } 
-            $this -> executeQuery($query);
+            Connection:: executeQuery($query);
         }
      
 }

@@ -8,17 +8,6 @@ include("Column.php");
 //include("Connection.php");
 class ManageDataBase{
 
- public function executeQuery($query){
-    $connection = mysqli_connect("localhost","root","","PFM");
-    $executeQuery = mysqli_query($connection, $query);
-    if ($connection->query($query) === TRUE) {
-        echo "Table MyGuests created successfully";
-      } else {
-        echo "Error creating table: " . $connection->error;
-      }
-      
-    return $executeQuery;    
-}
 //CRUD : 
 public function Afficher(){
 
@@ -46,7 +35,7 @@ public function Ajouter($tableName, $columns){
     //    City varchar(255) 
     //);
     $col = "(";
-  
+      echo "mariam";
     $content = "<?php class $tableName extends ManageTables{ \n ";
     for ($i=0; $i < count($columns); $i++) {
       if($columns[$i] -> isPrimaryKey == true){
@@ -70,7 +59,7 @@ public function Ajouter($tableName, $columns){
 
      $query = "Create Table $tableName  $col";
      echo $query;
-     $this->executeQuery($query);
+     Connection::executeQuery($query);
      //Create class that inherit from ManageTables 
      //Creating a file with the patrams name 
      $content .= "}?>";
@@ -120,15 +109,15 @@ public function Renomer($oldName,$newName){
 
 }
 
-$manageDb = new ManageDataBase();
+// $manageDb = new ManageDataBase();
 
-$c1 = new Column("id","INT",true,false);
-$c1 -> isPrimaryKey = true;
-$c2 = new Column("Name", "VARCHAR(255)",false,false);
-$c3 = new Column("lastName", "VARCHAR(255)",false,true);
-$columns = array($c1,$c2,$c3);
+// $c1 = new Column("id","INT",true,false);
+// $c1 -> isPrimaryKey = true;
+// $c2 = new Column("Name", "VARCHAR(255)",false,false);
+// $c3 = new Column("lastName", "VARCHAR(255)",false,true);
+// $columns = array($c1,$c2,$c3);
 
-$manageDb->Ajouter("NewTest",$columns);
+// $manageDb->Ajouter("NewTest",$columns);
 
 
 
