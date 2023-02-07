@@ -1,19 +1,19 @@
 <?php class TableForTest extends ManageTables{ 
- private id;
+ private $id;
 public function getid(){
       return $this -> id;
   }
 public function setid($id){
       $this -> id = $id; 
   }
-private Name;
+private $Name;
 public function getName(){
       return $this -> Name;
   }
 public function setName($Name){
       $this -> Name = $Name; 
   }
-private lastName;
+private $lastName;
 public function getlastName(){
       return $this -> lastName;
   }

@@ -119,7 +119,7 @@
     </form>
         <?php
         include "../Column.php";
-        include "../Controllers/index.php";
+       include "../Controllers/index.php";
         echo "hi";
            if ($_SERVER["REQUEST_METHOD"] == "GET") {
                  $columns = array();
@@ -130,8 +130,8 @@
                          array_push($columns,$column);
                     }
                
-                   // CreerTable($_REQUEST["name"],$columns);
-             
+                   CreerTable($_REQUEST["name"],$columns);
+                echo "hu";
             }
             
             }

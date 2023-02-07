@@ -4,8 +4,8 @@
 *  We have CRUD for tables 
 * 
 */
-include("Column.php");
-//include("Connection.php");
+//include("Column.php");
+include("Connection.php");
 class ManageDataBase{
 
 //CRUD : 
@@ -35,15 +35,16 @@ public function Ajouter($tableName, $columns){
     //    City varchar(255) 
     //);
     $col = "(";
-      echo "mariam";
     $content = "<?php class $tableName extends ManageTables{ \n ";
     for ($i=0; $i < count($columns); $i++) {
-      if($columns[$i] -> isPrimaryKey == true){
+
+            echo $columns[$i]->getIsPrimaryKey();
+        if($columns[$i] -> getIsPrimaryKey() == true){
         $constraint = "PRIMARY KEY";
       }else{
         $constraint = "";
       }
-    
+      echo $i;
        
         if($i != count($columns) -1) {
             $col .= " ".$columns[$i]->getNomColumn() . " " . $columns[$i]->getType()." " .$columns[$i]->isNull() ." " . $columns[$i]-> isAutoIncrement(). " " . $constraint . ",";
@@ -60,6 +61,7 @@ public function Ajouter($tableName, $columns){
      $query = "Create Table $tableName  $col";
      echo $query;
      Connection::executeQuery($query);
+     echo "hi";
      //Create class that inherit from ManageTables 
      //Creating a file with the patrams name 
      $content .= "}?>";
@@ -111,13 +113,14 @@ public function Renomer($oldName,$newName){
 
 // $manageDb = new ManageDataBase();
 
-// $c1 = new Column("id","INT",true,false);
-// $c1 -> isPrimaryKey = true;
-// $c2 = new Column("Name", "VARCHAR(255)",false,false);
-// $c3 = new Column("lastName", "VARCHAR(255)",false,true);
-// $columns = array($c1,$c2,$c3);
+ $c1 = new Column("id","INT",true,false);
+ $c1 -> isPrimaryKey = true;
+ $c2 = new Column("Name", "VARCHAR(255)",false,false);
+ $c3 = new Column("lastName", "VARCHAR(255)",false,true);
+ $columns = array($c1,$c2,$c3);
 
-// $manageDb->Ajouter("NewTest",$columns);
+$manageDb->Ajouter("NewTest1",$columns);
+echo "done";
 
 
 

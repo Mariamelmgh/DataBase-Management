@@ -1,8 +1,11 @@
 <?php
 include "../ManageDataBase.php";
-$controller = new ManageTable();
+
  function CreerTable($tableName,$columns){
-    $controller-> Ajouter($tableName,$columns);
+    echo "hi index";
+    $controller = new ManageDataBase();
+    
+    $controller -> Ajouter($tableName,$columns);
 
 }
 
