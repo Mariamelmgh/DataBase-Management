@@ -5,6 +5,7 @@
     <meta name="Description" content="Stimulation du site PHPmyAdmin" />
     <meta name="author" content="Etudiants ENS" />
     <meta name="keywords" content="ENS,Developpement Web, PHP, PHPmyAdmin" />
+    <!-- <meta http-equiv="Refresh" content="0; url='http://localhost/pfm/View/afficherTable.php'" /> -->
     <link rel="icon" href="OIP.jpeg" alt="Logo">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -13,14 +14,8 @@
 </head>
 
 <body>
-    <?php
-        // if (isset($_GET['go'])) {
-        //     $nb_ligne = $_REQUEST['nbr'];
-        //     $name = $_REQUEST["name"];   
-        // }
-    ?>
     <!--<aside><img src="OIP.jpeg"></aside>-->
-    <form action="" method="GET">
+    <form  action="afficherTable.php" method="GET">
         <div class="form-row">
             Nom de table: 
             <input name="name" type="text" class="input-group-text" value = <?php echo  $_REQUEST['name']?> >  Ajouter
@@ -94,52 +89,41 @@
                     <option>on update CURRENT_TIMESTAMP</option>
                 </select>
             </td>
-            <td><input type="checkbox" name="null'.$i.'"></td>
-            <td><select class="form-control" name="index'.$i.'">
-                    <option>--</option>
-                    <option>PRIMARY</option>
-                    <option>UNIQUE</option>
-                    <option>INDEX</option>
-                    <option>FULLTEXT</option>
-                    <option>SPATIAL</option>
+            <td><input type="checkbox" name="null'.$i.'" /></td>
+            <td><select class="form-control" name="index'.$i.'" id="index'.$i.'" >
+                    <option value="">--</option>
+                    <option value="PRIMARY KEY">PRIMARY</option>
+                    <option value="UNIQUE">UNIQUE</option>
+                    <option value="INDEX">INDEX</option>
+                    <option value="FULLTEXT">FULLTEXT</option>
+                    <option value="SPATIAL">SPATIAL</option>
                 </select>
             </td>
             <td>
-                <input name="a_i'.$i.'"type="checkbox">
+                <input name="a_i'.$i.'"type="checkbox" onclick="setPrimary('.$i.')">
             </td>
-            <td> <input name="commentaire'.$i.'" type="text" class="form-control"></td>
-            </tr>';
-            }
-            ?>
+            <td> <input name="commentaire'.$i.'" type="text" class="form-control"></td></tr>';}?>
         </tbody>
         </table>
         <footer>
         <button class="btn btn-outline-secondary">Appercu SQL</button>
         <input name="createTable" type="submit" class="btn btn-outline-secondary"/>
     </form>
-        <?php
-        include "../Column.php";
-       include "../Controllers/index.php";
-        echo "hi";
-           if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                 $columns = array();
-                 if(isset($_GET['createTable'])){
-                 for ($i=0; $i <$_GET["nbr"]; $i++) { 
-                        echo $i; 
-                        $column = new Column($_REQUEST["tableName".$i], $_REQUEST["type".$i],false,false);
-                         array_push($columns,$column);
-                    }
-               
-                   CreerTable($_REQUEST["name"],$columns);
-                echo "hu";
-            }
-            
-            }
-        
-        
-        ?>
-       
-
+      
 </body>
+<?php
+echo '
+    <script>
+        function setPrimary(i){
+
+            const select = document.querySelector("#index"+i);
+            select.value = "PRIMARY";
+            console.log(select.value);
+        }
+            
+    </script>
+    ';
+
+?>
 
 </html>

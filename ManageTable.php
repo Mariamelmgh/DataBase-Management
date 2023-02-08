@@ -55,13 +55,11 @@ public function setMoteurDeStockage($moteurDeStockage){
     $this -> moteurDeStockage = $moteurDeStockage;
 }
 //Constructior
-public function __construct($tableName, $nbColumn,$columns,$commentaireDeTable, $interclassement, $moteurDeStockage){
+public function __construct($tableName,$columns){
     $this -> setTableName($tableName);
-    $this -> setNbColumn($nbColumn);
+    $this -> setNbColumn(count($columns));
     $this -> setColumns($columns);
-    $this -> setCommentaireDeTable($commentaireDeTable);
-    $this -> setInterclassement($interclassement);
-    $this -> setMoteurDeStockage($moteurDeStockage);
+  
 }
 //Methods
 
@@ -80,26 +78,27 @@ public function __construct($tableName, $nbColumn,$columns,$commentaireDeTable, 
             $query .= " FROM ". $this -> tableName . " "  . $keyword;
         
         $creteriaCount = count($creteria);
-                echo $creteria;
-            if($creteriaCount > 0){
-                echo $query;       
+            
+            if($creteriaCount > 0){    
                 foreach ($creteria as $key => $value) {
                     $query .= " $key $condition $value";
                 }
             }
-            $result = $this ->executeQuery($query);
+            $result = Connection::executeQuery($query);
                 $raws = [];
             if($result->num_rows >0 ){
                     $raws = $result->fetch_all(MYSQLI_ASSOC);
             }
-            if(!empty($raws)){
+            /* if(!empty($raws)){
                 foreach ($raws as $data ) {
                         foreach ($data as $key => $value) {
                             echo $key ." " .$value. "<br> " ;
                         }
                     
                     }
-            }
+            } */
+      
+        return $raws;
 
         }
         //Ajouter

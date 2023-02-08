@@ -13,9 +13,9 @@
     }
 
     public static  function executeQuery($query){
+   
         $connection = self::getConnection();
         $executeQuery = mysqli_query($connection , $query);
-        echo "connection";
         if ($connection ->query($query) === TRUE) {
             echo "Table MyGuests created successfully";
           } else {

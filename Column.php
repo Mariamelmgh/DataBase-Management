@@ -1,5 +1,5 @@
 <?php
-include("Connection.php");
+//include("Connection.php");
      class Column{
         //Properties
         private $nomColumn;
@@ -10,8 +10,10 @@ include("Connection.php");
         private $attributs;
         private $isNull;
         private $A_I;
-        private $isPrimaryKey;
-        private $isForeignKey;
+         private $index;
+    //   private $isPrimaryKey;
+     //   private $isForeignKey;
+        
         private $refrence;
         private $commentaire;
         private $virtualite;
@@ -114,29 +116,25 @@ include("Connection.php");
         public function setOptionDeTransformationDeSaisie($optionsDeTransformationDeSaisie){
             $this -> optionsDeTransformationDeSaisie = $optionsDeTransformationDeSaisie;
         }
-        public function getIsPrimaryKey(){
-            return $this -> isPrimaryKey;
-        }
-        public function setIsPrimaryKey($isPrimaryKey){
-            $this -> isPrimaryKey = $isPrimaryKey;
-        }
-        public function getIsForeignKey(){
-            return $this -> getIsForeignKey;
-        }
-        public function setIsForeignKey($isForeignKey){
-            $this -> isForeignKey = $isForeignKey;
-        }
+       
         public function getRefrence(){
             return $this -> refrence;
         }
         public function setRefrence($refrence){
             $this -> refrence = $refrence;
         }
-        public function __construct($nomColumn, $type, $A_I,$isNull){
+        public function getIndex(){
+            return $this->index;
+        }
+        public function setIndex($index){
+            $this->index = $index;
+        }
+        public function __construct($nomColumn, $type, $A_I,$isNull,$index){
             $this->nomColumn = $nomColumn;
             $this->type = $type;
             $this->A_I = $A_I;
             $this->isNull = $isNull;
+            $this->index = $index;
         }
 
         /**
@@ -247,7 +245,7 @@ include("Connection.php");
 }
 
 //$column = new Column();
-$array = array(array("id", "int", "Null","AUTO_INCREMENT" ,"PRIMARY KEY"), array("Name","varchar(100)","Not Null"),array("LastName","varchar(255)","not Null"));
+//array = array(array("id", "int", "Null","AUTO_INCREMENT" ,"PRIMARY KEY"), array("Name","varchar(100)","Not Null"),array("LastName","varchar(255)","not Null"));
 //Column::Modifier($array,"tableForTest");
 
 ?>
