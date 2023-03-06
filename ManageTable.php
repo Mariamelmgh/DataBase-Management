@@ -63,6 +63,7 @@ public function __construct($tableName,$columns){
 }
 //Methods
 
+
 //Afficher
         public function afficher($selectedData,$keyword,$condition,$creteria){
             $query= "select ";
@@ -103,8 +104,9 @@ public function __construct($tableName,$columns){
         }
         //Ajouter
         public function ajouter($data){
-        
-            $query = "insert INTO  " .$this -> getTableName() . " (Name) VALUES (" . implode(',',$data). ")"; 
+        $keys = array_keys($data);
+
+            $query = "insert INTO  " .$this -> getTableName() . " (".implode(',',$keys) . ") VALUES (" . implode(',',$data). ")"; 
             echo $query;
             Connection:: executeQuery($query);
         }
@@ -138,9 +140,12 @@ public function __construct($tableName,$columns){
             }else{
                 $query = "Delete FROM ". $this -> getTableName() . " WHERE $clause"; 
             } 
+
             Connection:: executeQuery($query);
         }
      
+        //DROP Table
+        
 }
 
 //$column = new Column();

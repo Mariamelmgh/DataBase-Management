@@ -37,23 +37,31 @@ public function Ajouter($tableName, $columns){
     $col = "(";
     $content = "<?php class $tableName extends ManageTables{ \n ";
     $constraint = "";
+     $index = "";
     for ($i=0; $i < count($columns); $i++) { 
-        if($i != count($columns) -1) {
+      if($columns[$i]-> getIndex() != "------"){
+        $index =  $columns[$i]-> getIndex();
+      }else{
+        $index = "";
+      }
+     
+      echo $index;  
+      if($i != count($columns) -1) {
        
-            $col .= " ".$columns[$i]->getNomColumn() . " " . $columns[$i]->getType()." " .$columns[$i]->isNull() ." " . $columns[$i]-> isAutoIncrement() . ",";
+            $col .= " ".$columns[$i]->getNomColumn() . " " . $columns[$i]->getType()." " .$columns[$i]->isNull() ." " . $columns[$i]-> isAutoIncrement() . " $index,";
             if($constraint != ''){
               $constraint .= ',';
             }
           } else {
-            if($constraint == ""){
-              $constraint .= ',';
-              $col .= " ".$columns[$i]->getNomColumn() . " " . $columns[$i]->getType()." " .$columns[$i]->isNull() ." " . $columns[$i]-> isAutoIncrement() .")";
-            }else{
-              $col .= " ".$columns[$i]->getNomColumn() . " " . $columns[$i]->getType()." " .$columns[$i]->isNull() ." " . $columns[$i]-> isAutoIncrement() .", $constraint)";
-            }
+           // if($constraint == ""){
+             // $constraint .= ',';
+            //  $col .= " ".$columns[$i]->getNomColumn() . " " . $columns[$i]->getType()." " .$columns[$i]->isNull() ." " . $columns[$i]-> isAutoIncrement() .")";
+            //}else{
+              $col .= " ".$columns[$i]->getNomColumn() . " " . $columns[$i]->getType()." " .$columns[$i]->isNull() ." " . $columns[$i]-> isAutoIncrement() ." $index)";
+            //}
          
         }
-   //   echo $columns[$i]->getIndex();
+          //   echo $columns[$i]->getIndex();
         if($columns[$i]-> getIndex() != ""  ){
             $constraint .= $columns[$i]-> getIndex(). ' (' . $columns[$i]->getNomColumn() .')';
         } 
@@ -65,14 +73,15 @@ public function Ajouter($tableName, $columns){
      //Create class that inherit from ManageTables 
      //Creating a file with the patrams name 
      $content .= "}?>";
-     //$table =   fopen("Tables/$tableName.php","w") or die("Unable to create file");
+     $table =   fopen("Tables/$tableName.php","w") or die("Unable to create file");
      //Adding attribute to the new class
-     //fwrite($table,$content);  
-    // fclose($table);
+     fwrite($table,$content);  
+      fclose($table);
 
      $query = "Create Table  IF NOT EXISTS $tableName   $col";
-      echo $query;
+     echo $query;
      Connection::executeQuery($query);
+     
     
      
 }

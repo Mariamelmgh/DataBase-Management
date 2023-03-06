@@ -178,15 +178,15 @@
          */
         public static function Modifier($Columns, $tableName)
         {
+            //
             // ALTER TABLE table_name
             // MODIFY column_name column_definition
             // [ FIRST | AFTER column_name ],
             // MODIFY column_name column_definition
             // [ FIRST | AFTER column_name ],
             //  ...;
-
+           
             $query = "alter table $tableName ";
-            $query = "alter table $tableName  ";
             for ($i = 0; $i < count($Columns); $i++) {
                 $query .= "modify ";
                 for ($j = 0; $j < count($Columns[$i]); $j++) {
@@ -195,8 +195,9 @@
                 if ($i != count($Columns) - 1) {
                     $query .= ",";
                 }
-            }
+            } 
             echo $query;
+        //x@   $this ::Changer("","","");
             Connection::executeQuery($query);
         }
         /** 
@@ -225,6 +226,7 @@
             //CHANGE COLUMN contact_type ctype
             // varchar(20) NOT NULL;
             $query = "alter table $tableName change column $oldName $newName $newDefinition";
+           // echo $query;
             Connection::executeQuery($query);
 
         }
@@ -245,7 +247,7 @@
 }
 
 //$column = new Column();
-//array = array(array("id", "int", "Null","AUTO_INCREMENT" ,"PRIMARY KEY"), array("Name","varchar(100)","Not Null"),array("LastName","varchar(255)","not Null"));
+//$array = array(array("id", "varchar(255)", "NOT Null",""));
 //Column::Modifier($array,"tableForTest");
 
 ?>
